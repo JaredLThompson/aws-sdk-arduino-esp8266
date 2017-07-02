@@ -1,7 +1,7 @@
 #include <stdio.h>
 /* application.h is Esp8266's standard library. Defines the Arduino String
  * object, the Arduino delay() procedure, and the Esp8266 TCPClient. */
-#include "Esp8266AWSImplementations.h"
+#include "ESP8266AWSImplementations.h"
 #include "DeviceIndependentInterfaces.h"
 #include <ESP8266WiFi.h>
 #include <string.h>
