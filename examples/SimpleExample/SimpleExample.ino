@@ -40,9 +40,10 @@ void setup() {
 }
 
 void loop(){
-  char* shadow = "{\"state\":{\"reported\": {\"foobar\": \"bar\"}}}";
-
+  char shadow[100];
+  strcpy(shadow, "{\"state\":{\"reported\": {\"foobar\": \"bar\"}}}");
   char* result = iotClient.update_shadow(shadow, actionError);
+
   Serial.print(result);
 
   delay(60000);
