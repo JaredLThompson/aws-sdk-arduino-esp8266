@@ -6095,7 +6095,7 @@ BatchGetItemOutput AmazonDynamoDBClient::batchGetItem(BatchGetItemInput batchGet
     }
     contentType = JSON_TYPE;
     target = BATCHGETITEM_TARGET;
-    httpS = false;
+    httpS = true;
     MinimalString payload = batchGetItemInput.jsonSerialize();
     char* request;
     if (httpClient->usesCurl()) {
@@ -6146,7 +6146,7 @@ BatchWriteItemOutput AmazonDynamoDBClient::batchWriteItem(BatchWriteItemInput ba
     }
     contentType = JSON_TYPE;
     target = BATCHWRITEITEM_TARGET;
-    httpS = false;
+    httpS = true;
     MinimalString payload = batchWriteItemInput.jsonSerialize();
     char* request;
     if (httpClient->usesCurl()) {
@@ -6197,7 +6197,7 @@ CreateTableOutput AmazonDynamoDBClient::createTable(CreateTableInput createTable
     }
     contentType = JSON_TYPE;
     target = CREATETABLE_TARGET;
-    httpS = false;
+    httpS = true;
     MinimalString payload = createTableInput.jsonSerialize();
     char* request;
     if (httpClient->usesCurl()) {
@@ -6248,7 +6248,7 @@ DeleteItemOutput AmazonDynamoDBClient::deleteItem(DeleteItemInput deleteItemInpu
     }
     contentType = JSON_TYPE;
     target = DELETEITEM_TARGET;
-    httpS = false;
+    httpS = true;
     MinimalString payload = deleteItemInput.jsonSerialize();
     char* request;
     if (httpClient->usesCurl()) {
@@ -6299,7 +6299,7 @@ DeleteTableOutput AmazonDynamoDBClient::deleteTable(DeleteTableInput deleteTable
     }
     contentType = JSON_TYPE;
     target = DELETETABLE_TARGET;
-    httpS = false;
+    httpS = true;
     MinimalString payload = deleteTableInput.jsonSerialize();
     char* request;
     if (httpClient->usesCurl()) {
@@ -6350,7 +6350,7 @@ DescribeTableOutput AmazonDynamoDBClient::describeTable(DescribeTableInput descr
     }
     contentType = JSON_TYPE;
     target = DESCRIBETABLE_TARGET;
-    httpS = false;
+    httpS = true;
     MinimalString payload = describeTableInput.jsonSerialize();
     char* request;
     if (httpClient->usesCurl()) {
@@ -6401,7 +6401,7 @@ GetItemOutput AmazonDynamoDBClient::getItem(GetItemInput getItemInput, ActionErr
     }
     contentType = JSON_TYPE;
     target = GETITEM_TARGET;
-    httpS = false;
+    httpS = true;
     MinimalString payload = getItemInput.jsonSerialize();
     char* request;
     if (httpClient->usesCurl()) {
@@ -6452,7 +6452,7 @@ ListTablesOutput AmazonDynamoDBClient::listTables(ListTablesInput listTablesInpu
     }
     contentType = JSON_TYPE;
     target = LISTTABLES_TARGET;
-    httpS = false;
+    httpS = true;
     MinimalString payload = listTablesInput.jsonSerialize();
     char* request;
     if (httpClient->usesCurl()) {
@@ -6503,7 +6503,7 @@ PutItemOutput AmazonDynamoDBClient::putItem(PutItemInput putItemInput, ActionErr
     }
     contentType = JSON_TYPE;
     target = PUTITEM_TARGET;
-    httpS = false;
+    httpS = true;
     MinimalString payload = putItemInput.jsonSerialize();
     char* request;
     if (httpClient->usesCurl()) {
@@ -6554,7 +6554,7 @@ QueryOutput AmazonDynamoDBClient::query(QueryInput queryInput, ActionError& acti
     }
     contentType = JSON_TYPE;
     target = QUERY_TARGET;
-    httpS = false;
+    httpS = true;
     MinimalString payload = queryInput.jsonSerialize();
     char* request;
     if (httpClient->usesCurl()) {
@@ -6605,7 +6605,7 @@ ScanOutput AmazonDynamoDBClient::scan(ScanInput scanInput, ActionError& actionEr
     }
     contentType = JSON_TYPE;
     target = SCAN_TARGET;
-    httpS = false;
+    httpS = true;
     MinimalString payload = scanInput.jsonSerialize();
     char* request;
     if (httpClient->usesCurl()) {
@@ -6656,7 +6656,7 @@ UpdateItemOutput AmazonDynamoDBClient::updateItem(UpdateItemInput updateItemInpu
     }
     contentType = JSON_TYPE;
     target = UPDATEITEM_TARGET;
-    httpS = false;
+    httpS = true;
     MinimalString payload = updateItemInput.jsonSerialize();
     char* request;
     if (httpClient->usesCurl()) {
@@ -6707,7 +6707,7 @@ UpdateTableOutput AmazonDynamoDBClient::updateTable(UpdateTableInput updateTable
     }
     contentType = JSON_TYPE;
     target = UPDATETABLE_TARGET;
-    httpS = false;
+    httpS = true;
     MinimalString payload = updateTableInput.jsonSerialize();
     char* request;
     if (httpClient->usesCurl()) {
