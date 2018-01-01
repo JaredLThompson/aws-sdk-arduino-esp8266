@@ -7,40 +7,39 @@
 #include <string.h>
 
 int delayTime = 500;
+const char* fingerprint = "20 E4 92 1C D4 B6 39 57 8C EB 41 8B 23 15 9E A4 69 F0 8B F5";
 char* updateCurTime(void);
 
 Esp8266HttpClient::Esp8266HttpClient() {
 }
 
 char* Esp8266HttpClient::send(const char* request, const char* serverUrl, int port) {
-
+    //port = 443;
     WiFiClientSecure sclient;
     Serial.println(serverUrl);
     Serial.println(port);
     Serial.println(request);
     Serial.println("");
     Serial.println("");
-
-    //
     String response = "";
+    
     if (sclient.connect(serverUrl, port)) {
-
+        if(sclient.verify(fingerprint,serverUrl)){
+            Serial.println("Certificate Matches");
+        } else {
+            Serial.println("Certificate Does Not Match");
+        }
         // Send the request
         sclient.print(request);
-
         // keep reading the response until it's finished
         while(sclient.connected()) {
-          while(sclient.available()){
-            char c = sclient.read();
-            response.concat(c);
-            Serial.print('.');
-          }
-
-          // disconnect any open connections
-          sclient.stop();
+            response = sclient.readStringUntil('\n');        
+            // disconnect any open connections
+            sclient.stop();
         }
 
     } else {
+        Serial.println("Connection Unsuccessful");
         // connection was unsuccessful
         sclient.stop();
         return "can't setup SSL connection";
@@ -144,9 +143,9 @@ char* updateCurTime(void) {
         ipos = req2.indexOf("Date:");
         if(ipos>0) {
           GmtDate = req2.substring(ipos,ipos+35);
-          // Serial.println(GmtDate);
+          Serial.println(GmtDate);
           utctime = GmtDate.substring(18,22) + getMonth(GmtDate.substring(14,17)) + GmtDate.substring(11,13) + GmtDate.substring(23,25) + GmtDate.substring(26,28) + GmtDate.substring(29,31);
-          // Serial.println(utctime.substring(0,14));
+          Serial.println(utctime.substring(0,14));
           utctime.substring(0,14).toCharArray(dateStamp, 20);
         }
     }
