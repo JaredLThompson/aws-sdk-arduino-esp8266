@@ -48,11 +48,11 @@ class AWSClient4 {
     // void initSignedHeaders();
     // /* Create the canonical request and the string to sign as described. Return
     //  * value must be deleted by caller. */
-    char* createStringToSign(char* canonical_request);
+    void createStringToSign(char* canonical_request);
     // /* Given the string to sign, create the signature (a 64-char cstring).
     //  * Return value must be deleted by caller. */
     char* createSignature(const char* toSign);
-    char* createRequestHeaders(char* signature);
+    void createRequestHeaders(char* signature);
     // /* Add the headers that will not be signed to the headers array. Called
     //  * after createSignature. */
     // void initUnsignedHeaders(const char* signature);
@@ -66,11 +66,14 @@ class AWSClient4 {
     // char* headersToRequest(void);
 
 protected:
-    char* method;
-    char* uri;
-    char* queryString;
-    char* headers;
-    char* signedHeaders;
+    const char* method;
+    const char* uri;
+    const char* queryString;
+    char headers[1000];
+    char canonical_headers[500];
+    char string_to_sign[700];
+    char canonical_request[1000];
+    const char* signedHeaders;
     char* payloadHash;
 
     /* Used to keep track of time. */
@@ -89,11 +92,11 @@ protected:
      * yyyyMMddHHmmss format. Should be exposed to user by extending class.
      * Returns 0 if client is unititialized. */
     char* createRequest(MinimalString &payload);
-    char* createCanonicalRequest();
-    char* createCanonicalHeaders();
+    void createCanonicalRequest();
+    void createCanonicalHeaders();
 
     /* Sends http data. Returns http response, or null on error. */
-    char* sendData(const char* data);
+    const char* sendData(const char* data);
     /* Empty constructor. Must also be initialized with init. */
     AWSClient4();
 

@@ -16,7 +16,7 @@ class AmazonIOTClient : public AWSClient4 {
 public:
     AmazonIOTClient();
 
-    char* update_shadow(MinimalString shadow, ActionError& actionError);
+    const char* update_shadow(MinimalString shadow, ActionError& actionError);
 };
 
 #endif /* AMAZONIOTCLIENT_H_ */

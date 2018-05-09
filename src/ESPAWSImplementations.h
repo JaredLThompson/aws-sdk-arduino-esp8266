@@ -1,37 +1,42 @@
-#ifndef AWSESP2866IMPLEMENTATIONS_H_
-#define AWSESP2866IMPLEMENTATIONS_H_
+#ifndef AWSESPIMPLEMENTATIONS_H_
+#define AWSESPIMPLEMENTATIONS_H_
 #include "DeviceIndependentInterfaces.h"
-/* application.h is Esp8266's standard library. Define TCPClient. */
+/* application.h is Esp's standard library. Define TCPClient. */
+#ifdef ESP8266
 #include <ESP8266WiFi.h>
+#else
+#include <WiFi.h>
+#include <WiFiClientSecure.h>
+#endif
 
-/* HttpClient implementation to be used on the Esp8266 Core device. */
-class Esp8266HttpClient: public IHttpClient {
+/* HttpClient implementation to be used on the Esp Core device. */
+class EspHttpClient: public IHttpClient {
     WiFiClientSecure sclient;
     //TCPClient client;
 public:
-    Esp8266HttpClient();
+    EspHttpClient();
     /* Send http request and return the response. */
-    char* send(const char *request, const char* serverUrl, int port);
+    const char* send(const char *request, const char* serverUrl, int port);
     /* Returns false. Client uses raw http/https. */
     bool usesCurl(void);
 };
 
-class Esp8266DateTimeProvider: public IDateTimeProvider {
+class EspDateTimeProvider: public IDateTimeProvider {
     /* The time as a cstring in yyyyMMddHHmmss format. Is written to within and
      * returned by getDateTime(). */
     WiFiClient client;
     //char dateTime[15];
 public:
     char dateTime[15];
-    Esp8266DateTimeProvider();
+    EspDateTimeProvider();
     /* Retrieve the current GMT date and time in yyyyMMddHHmmss format. */
     const char* getDateTime(void);
-    /* Returns false because Esp8266 has it's own mechanism for syncing that does
+    /* Returns false because Esp has it's own mechanism for syncing that does
      * not require an argument. */
     bool syncTakesArg(void);
-    /* Synchronizes Esp8266's date and time with Esp8266's servers. The dateTime
+    /* Synchronizes Esp's date and time with Esp's servers. The dateTime
      * argument is ignored. */
     void sync(const char* dateTime);
 };
 
-#endif /* AWSESP2866IMPLEMENTATIONS_H_ */
+#endif /* AWSESPIMPLEMENTATIONS_H_ */

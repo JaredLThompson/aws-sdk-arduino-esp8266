@@ -7,7 +7,7 @@ class IHttpClient {
 public:
     virtual ~IHttpClient();
     /* Send http request and return the response. */
-    virtual char* send(const char *request, const char* serverUrl,
+    virtual const char* send(const char *request, const char* serverUrl,
             int port) = 0;
     /* Returns true if the client uses a curl command, false if the client uses
      * raw http/https. */

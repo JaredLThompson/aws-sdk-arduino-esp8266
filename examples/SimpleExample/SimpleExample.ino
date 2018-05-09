@@ -1,15 +1,14 @@
-#include <ESP8266WiFi.h>
 #include <AmazonIOTClient.h>
-#include "ESP8266AWSImplementations.h"
+#include "ESPAWSImplementations.h"
 
-Esp8266HttpClient httpClient;
-Esp8266DateTimeProvider dateTimeProvider;
+EspHttpClient httpClient;
+EspDateTimeProvider dateTimeProvider;
 
 AmazonIOTClient iotClient;
 ActionError actionError;
 
-char *ssid="MySSID";
-char *password="MyPASS";
+const char *ssid="MySSID";
+const char *password="MyPASS";
 
 void setup() {
   Serial.begin(115200);
@@ -40,9 +39,9 @@ void setup() {
 }
 
 void loop(){
-  char shadow[100];
-  strcpy(shadow, "{\"state\":{\"reported\": {\"foobar\": \"bar\"}}}");
-  char* result = iotClient.update_shadow(shadow, actionError);
+
+  const char* shadow = "{\"state\":{\"reported\": {\"foobar\": \"bar\"}}}";
+  const char* result = iotClient.update_shadow(shadow, actionError);
 
   Serial.print(result);
 

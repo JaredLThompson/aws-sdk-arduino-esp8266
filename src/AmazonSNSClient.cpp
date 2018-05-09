@@ -96,7 +96,7 @@ PublishOutput AmazonSNSClient::publish(PublishInput publishInput, ActionError& a
     MinimalString payload = publishInput.serialize();
 	
     char* request = createRequest(payload);
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     
     if (response == NULL) {

@@ -1,19 +1,25 @@
 #include <stdio.h>
-/* application.h is Esp8266's standard library. Defines the Arduino String
- * object, the Arduino delay() procedure, and the Esp8266 TCPClient. */
-#include "ESP8266AWSImplementations.h"
+/* application.h is Esp's standard library. Defines the Arduino String
+ * object, the Arduino delay() procedure, and the Esp TCPClient. */
+#include "ESPAWSImplementations.h"
 #include "DeviceIndependentInterfaces.h"
-#include <ESP8266WiFi.h>
+
+#ifdef ESP32
+#include <WiFi.h>
+#endif
+
 #include <string.h>
 
 int delayTime = 500;
 const char* fingerprint = "20 E4 92 1C D4 B6 39 57 8C EB 41 8B 23 15 9E A4 69 F0 8B F5";
 char* updateCurTime(void);
 
-Esp8266HttpClient::Esp8266HttpClient() {
+EspHttpClient::EspHttpClient() {
 }
 
-char* Esp8266HttpClient::send(const char* request, const char* serverUrl, int port) {
+const char*
+EspHttpClient::send(const char* request, const char* serverUrl, int port)
+{
     //port = 443;
     WiFiClientSecure sclient;
     Serial.println(serverUrl);
@@ -21,21 +27,30 @@ char* Esp8266HttpClient::send(const char* request, const char* serverUrl, int po
     Serial.println(request);
     Serial.println("");
     Serial.println("");
+
     String response = "";
     
     if (sclient.connect(serverUrl, port)) {
+#ifndef ESP32
         if(sclient.verify(fingerprint,serverUrl)){
             Serial.println("Certificate Matches");
         } else {
             Serial.println("Certificate Does Not Match");
         }
+#endif
+
         // Send the request
         sclient.print(request);
         // keep reading the response until it's finished
         while(sclient.connected()) {
-            response = sclient.readStringUntil('\n');        
-            // disconnect any open connections
-            sclient.stop();
+            bool availableSeen = false;
+            while(sclient.available()){
+                availableSeen = true;
+                char c = sclient.read();
+                response.concat(c);
+            }
+            if(availableSeen)
+                sclient.stop(); // disconnect any open connections
         }
 
     } else {
@@ -52,22 +67,22 @@ char* Esp8266HttpClient::send(const char* request, const char* serverUrl, int po
     return response_char;
 }
 
-bool Esp8266HttpClient::usesCurl() {
+bool EspHttpClient::usesCurl() {
     /* Does not use curl command. */
     return false;
 }
 
-Esp8266DateTimeProvider::Esp8266DateTimeProvider() {
+EspDateTimeProvider::EspDateTimeProvider() {
 }
 
-const char* Esp8266DateTimeProvider::getDateTime() {
+const char* EspDateTimeProvider::getDateTime() {
     return updateCurTime();
 }
-bool Esp8266DateTimeProvider::syncTakesArg(void) {
+bool EspDateTimeProvider::syncTakesArg(void) {
     return true;
 }
 
-void Esp8266DateTimeProvider::sync(const char* dateTime) {
+void EspDateTimeProvider::sync(const char* dateTime) {
   // should have no need for an implementation
 }
 
@@ -105,9 +120,6 @@ char* updateCurTime(void) {
     String utctime;
     String GmtDate;
     static char dateStamp[20];
-    static char chBuf[200];
-    char utctimeraw[80];
-    char* dpos;
 
     WiFiClient client;
     if (client.connect(timeServer, 80)) {
@@ -128,7 +140,10 @@ char* updateCurTime(void) {
         }
 
         // read the http GET Response
-        String req2 = client.readString();
+        const int buflen = 1024;
+        uint8_t buffer[buflen];
+        client.read(buffer, buflen);
+        String req2 = (char*)buffer;
         // Serial.println("");
         // Serial.println("");
         // Serial.print(req2);

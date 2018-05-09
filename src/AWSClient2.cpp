@@ -29,7 +29,6 @@ static const char* CONTENT_LENGTH_HEADER = "content-length:%d";
 static const int CONTENT_LENGTH_HEADER_LEN = 15;
 static const char* HOST_HEADER = "host:%s.%s.%s";
 static const int HOST_HEADER_LEN = 7;
-static const char* CONNECTION_HEADER = "Connection:close";
 static const int CONNECTION_HEADER_LEN = 16;
 static const char* CONTENT_TYPE_HEADER = "content-type:%s";
 static const int CONTENT_TYPE_HEADER_LEN = 13;
@@ -287,12 +286,12 @@ char* AWSClient2::createRequest(MinimalString &reqPayload) {
     return request;
 }
 
-char* AWSClient2::sendData(const char* data) {
+const char* AWSClient2::sendData(const char* data) {
     char* server = new char[strlen(awsService) + strlen(awsRegion)
             + strlen(awsEndpoint) + 4]();
     sprintf(server, "%s.%s.%s", awsService, awsRegion, awsEndpoint);
     int port = httpS ? 443 : 80;
-    char* response = httpClient->send(data, server, port);
+    const char* response = httpClient->send(data, server, port);
     delete[] server;
     return response;
 }
