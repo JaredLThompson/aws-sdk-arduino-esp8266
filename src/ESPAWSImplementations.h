@@ -1,18 +1,12 @@
 #ifndef AWSESPIMPLEMENTATIONS_H_
 #define AWSESPIMPLEMENTATIONS_H_
+
 #include "DeviceIndependentInterfaces.h"
-/* application.h is Esp's standard library. Define TCPClient. */
-#ifdef ESP8266
-#include <ESP8266WiFi.h>
-#else
-#include <WiFi.h>
 #include <WiFiClientSecure.h>
-#endif
 
 /* HttpClient implementation to be used on the Esp Core device. */
 class EspHttpClient: public IHttpClient {
     WiFiClientSecure sclient;
-    //TCPClient client;
 public:
     EspHttpClient();
     /* Send http request and return the response. */

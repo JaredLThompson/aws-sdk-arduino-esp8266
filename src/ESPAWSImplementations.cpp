@@ -1,13 +1,7 @@
-#include <stdio.h>
-/* application.h is Esp's standard library. Defines the Arduino String
- * object, the Arduino delay() procedure, and the Esp TCPClient. */
 #include "ESPAWSImplementations.h"
 #include "DeviceIndependentInterfaces.h"
 
-#ifdef ESP32
-#include <WiFi.h>
-#endif
-
+#include <stdio.h>
 #include <string.h>
 
 int delayTime = 500;
