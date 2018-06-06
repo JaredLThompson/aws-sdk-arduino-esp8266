@@ -2,11 +2,26 @@
 #define AWSESPIMPLEMENTATIONS_H_
 
 #include "DeviceIndependentInterfaces.h"
+
+#if !defined  ARDUINO_ARCH_SAM && !defined ARDUINO_ARCH_SAMD
 #include <WiFiClientSecure.h>
+#else
+#include <WiFiSSLClient.h>
+#endif
+
+#if defined  ARDUINO_ARCH_SAM || defined ARDUINO_ARCH_SAMD
+#ifdef SERIALUSB
+#define Serial SerialUSB
+#endif
+#endif
 
 /* HttpClient implementation to be used on the Esp Core device. */
 class EspHttpClient: public IHttpClient {
+#if !defined ARDUINO_ARCH_SAM && !defined ARDUINO_ARCH_SAMD
     WiFiClientSecure sclient;
+#else
+    WiFiSSLClient sclient;
+#endif
 public:
     EspHttpClient();
     /* Send http request and return the response. */

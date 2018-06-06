@@ -15,7 +15,11 @@ const char*
 EspHttpClient::send(const char* request, const char* serverUrl, int port)
 {
     //port = 443;
+#if !defined ARDUINO_ARCH_SAM && !defined ARDUINO_ARCH_SAMD
     WiFiClientSecure sclient;
+#else
+    WiFiSSLClient sclient;
+#endif
     Serial.println(serverUrl);
     Serial.println(port);
     Serial.println(request);
@@ -25,7 +29,7 @@ EspHttpClient::send(const char* request, const char* serverUrl, int port)
     String response = "";
     
     if (sclient.connect(serverUrl, port)) {
-#ifndef ESP32
+#ifdef ESP8266
         if(sclient.verify(fingerprint,serverUrl)){
             Serial.println("Certificate Matches");
         } else {
