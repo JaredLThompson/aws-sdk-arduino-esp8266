@@ -6097,13 +6097,13 @@ BatchGetItemOutput AmazonDynamoDBClient::batchGetItem(BatchGetItemInput batchGet
     target = BATCHGETITEM_TARGET;
     httpS = true;
     MinimalString payload = batchGetItemInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;
@@ -6148,13 +6148,13 @@ BatchWriteItemOutput AmazonDynamoDBClient::batchWriteItem(BatchWriteItemInput ba
     target = BATCHWRITEITEM_TARGET;
     httpS = true;
     MinimalString payload = batchWriteItemInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;
@@ -6199,13 +6199,13 @@ CreateTableOutput AmazonDynamoDBClient::createTable(CreateTableInput createTable
     target = CREATETABLE_TARGET;
     httpS = true;
     MinimalString payload = createTableInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;
@@ -6250,13 +6250,13 @@ DeleteItemOutput AmazonDynamoDBClient::deleteItem(DeleteItemInput deleteItemInpu
     target = DELETEITEM_TARGET;
     httpS = true;
     MinimalString payload = deleteItemInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;
@@ -6301,13 +6301,13 @@ DeleteTableOutput AmazonDynamoDBClient::deleteTable(DeleteTableInput deleteTable
     target = DELETETABLE_TARGET;
     httpS = true;
     MinimalString payload = deleteTableInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;
@@ -6352,13 +6352,13 @@ DescribeTableOutput AmazonDynamoDBClient::describeTable(DescribeTableInput descr
     target = DESCRIBETABLE_TARGET;
     httpS = true;
     MinimalString payload = describeTableInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;
@@ -6403,13 +6403,13 @@ GetItemOutput AmazonDynamoDBClient::getItem(GetItemInput getItemInput, ActionErr
     target = GETITEM_TARGET;
     httpS = true;
     MinimalString payload = getItemInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;
@@ -6454,13 +6454,13 @@ ListTablesOutput AmazonDynamoDBClient::listTables(ListTablesInput listTablesInpu
     target = LISTTABLES_TARGET;
     httpS = true;
     MinimalString payload = listTablesInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;
@@ -6505,13 +6505,13 @@ PutItemOutput AmazonDynamoDBClient::putItem(PutItemInput putItemInput, ActionErr
     target = PUTITEM_TARGET;
     httpS = true;
     MinimalString payload = putItemInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;
@@ -6556,13 +6556,13 @@ QueryOutput AmazonDynamoDBClient::query(QueryInput queryInput, ActionError& acti
     target = QUERY_TARGET;
     httpS = true;
     MinimalString payload = queryInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;
@@ -6607,13 +6607,13 @@ ScanOutput AmazonDynamoDBClient::scan(ScanInput scanInput, ActionError& actionEr
     target = SCAN_TARGET;
     httpS = true;
     MinimalString payload = scanInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;
@@ -6658,13 +6658,13 @@ UpdateItemOutput AmazonDynamoDBClient::updateItem(UpdateItemInput updateItemInpu
     target = UPDATEITEM_TARGET;
     httpS = true;
     MinimalString payload = updateItemInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;
@@ -6709,13 +6709,13 @@ UpdateTableOutput AmazonDynamoDBClient::updateTable(UpdateTableInput updateTable
     target = UPDATETABLE_TARGET;
     httpS = true;
     MinimalString payload = updateTableInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;

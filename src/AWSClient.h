@@ -90,9 +90,9 @@ protected:
     /* Creates a http request in curl format, given the payload and current GMT
      * date in yyyyMMddHHmmss format. Should be exposed to user by extending
      * class. Returns 0 if client is unititialized. */
-    char* createCurlRequest(MinimalString &payload);
+    const char* createCurlRequest(MinimalString &payload);
     /* Sends http data. Returns http response, or null on error. */
-    char* sendData(const char* data);
+    const char* sendData(const char* data);
     /* Empty constructor. Must also be initialized with init. */
     AWSClient();
 

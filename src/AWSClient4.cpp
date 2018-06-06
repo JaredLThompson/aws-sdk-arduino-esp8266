@@ -1,7 +1,7 @@
 /*
- * AWSClient.cpp
+ * AWSClient4.cpp
  *
- *  See AWSClient.h for description.
+ *  See AWSClient4.h for description.
  *  See http://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-header-based-auth.html
  *
  */
@@ -15,8 +15,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-AWSClient4::AWSClient4() {
-    /* Null until set in init method. */
+AWSClient4::AWSClient4()
+{
+    /* Null until set in init method or derived class function. */
     awsRegion = 0;
     awsEndpoint = 0;
     awsSecKey = 0;
@@ -25,46 +26,71 @@ AWSClient4::AWSClient4() {
     dateTimeProvider = 0;
     method = 0;
     uri = 0;
+    payload = "";
 }
 
-void AWSClient4::setAWSRegion(const char * awsRegion) {
+void
+AWSClient4::setAWSRegion(const char * awsRegion)
+{
     int len = strlen(awsRegion) + 1;
     this->awsRegion = new char[len]();
     strcpy(this->awsRegion, awsRegion);
 }
-void AWSClient4::setAWSEndpoint(const char * awsEndpoint) {
+
+void
+AWSClient4::setAWSEndpoint(const char * awsEndpoint)
+{
     int len = strlen(awsEndpoint) + 1;
     this->awsEndpoint = new char[len]();
     strcpy(this->awsEndpoint, awsEndpoint);
 }
-void AWSClient4::setAWSDomain(const char * awsDomain) {
+
+void
+AWSClient4::setAWSDomain(const char * awsDomain)
+{
     int len = strlen(awsDomain) + 1;
     this->awsDomain = new char[len]();
     strcpy(this->awsDomain, awsDomain);
 }
-void AWSClient4::setAWSPath(const char * awsPath) {
+
+void
+AWSClient4::setAWSPath(const char * awsPath)
+{
     int len = strlen(awsPath) + 1;
     this->awsPath = new char[len]();
     strcpy(this->awsPath, awsPath);
 }
-void AWSClient4::setAWSSecretKey(const char * awsSecKey) {
+
+void
+AWSClient4::setAWSSecretKey(const char * awsSecKey)
+{
     int len = strlen(awsSecKey) + 1;
     this->awsSecKey = new char[len]();
     strcpy(this->awsSecKey, awsSecKey);
 }
-void AWSClient4::setAWSKeyID(const char * awsKeyID) {
+
+void
+AWSClient4::setAWSKeyID(const char * awsKeyID)
+{
     int len = strlen(awsKeyID) + 1;
     this->awsKeyID = new char[len]();
     strcpy(this->awsKeyID, awsKeyID);
 }
-void AWSClient4::setHttpClient(IHttpClient* httpClient) {
+
+void
+AWSClient4::setHttpClient(IHttpClient* httpClient)
+{
     this->httpClient = httpClient;
 }
-void AWSClient4::setDateTimeProvider(IDateTimeProvider* dateTimeProvider) {
+
+void
+AWSClient4::setDateTimeProvider(IDateTimeProvider* dateTimeProvider)
+{
     this->dateTimeProvider = dateTimeProvider;
 }
 
-AWSClient4::~AWSClient4() {
+AWSClient4::~AWSClient4()
+{
     if (awsRegion != 0)
         delete[] awsRegion;
     if (awsEndpoint != 0)
@@ -73,71 +99,95 @@ AWSClient4::~AWSClient4() {
         delete[] awsSecKey;
     if (awsKeyID != 0)
         delete[] awsKeyID;
+    if (awsDomain != 0)
+        delete[] awsDomain;
+    if (awsPath != 0)
+        delete[] awsPath;
 }
 
 
-char* AWSClient4::createCanonicalHeaders() {
+void
+AWSClient4::createCanonicalHeaders()
+{
   // headers, alphabetically sorted, lowercase, eg: key:value
+  // content-length:l
   // content-type:x
   // host:host
   // x-amz-content-sha256:hash
   // x-amz-date:date
-  char canonical_headers[500] = "";
-  sprintf(canonical_headers, "%scontent-type:%s\n", canonical_headers, contentType);
+  canonical_headers[0] = 0;
+  sprintf(canonical_headers, "%scontent-length:%d\n", canonical_headers,
+          strlen(payload.getCStr()));
+  sprintf(canonical_headers, "%scontent-type:%s\n", canonical_headers,
+          contentType);
   sprintf(canonical_headers, "%shost:%s\n", canonical_headers, awsDomain);
   // sprintf(canonical_headers, "%srange:bytes=0-9\n", canonical_headers); // s3
-  sprintf(canonical_headers, "%sx-amz-content-sha256:%s\n", canonical_headers, payloadHash);
-  sprintf(canonical_headers, "%sx-amz-date:%sT%sZ\n\n", canonical_headers, awsDate, awsTime);
-  return canonical_headers;
+  sprintf(canonical_headers, "%sx-amz-content-sha256:%s\n",
+          canonical_headers, payloadHash);
+  sprintf(canonical_headers, "%sx-amz-date:%sT%sZ\n\n", canonical_headers,
+          awsDate, awsTime);
+  return;
 }
 
-char* AWSClient4::createRequestHeaders(char* signature) {
-  char headers[1000] = "";
+void
+AWSClient4::createRequestHeaders(char* signature)
+{
+  headers[0] = 0;
   sprintf(headers, "%sContent-Type: %s\r\n", headers, contentType);
-  sprintf(headers, "%sConnection: close\r\n", headers);
-  sprintf(headers, "%sContent-Length: %d\r\n", headers, strlen(payload.getCStr()));
+  sprintf(headers, "%sContent-Length: %d\r\n", headers,
+          strlen(payload.getCStr()));
   sprintf(headers, "%sHost: %s\r\n", headers, awsDomain);
-  sprintf(headers, "%sx-amz-content-sha256: %s\r\n", headers, payloadHash);
-  sprintf(headers, "%sx-amz-date: %sT%sZ\r\n", headers, awsDate, awsTime);
-  sprintf(headers, "%sAuthorization: AWS4-HMAC-SHA256 Credential=%s/%s/%s/%s/aws4_request,SignedHeaders=%s,Signature=%s\r\n", headers, awsKeyID, awsDate, awsRegion, awsService, signedHeaders, signature);
-  return headers;
+  sprintf(headers, "%sX-Amz-Content-Sha256: %s\r\n", headers, payloadHash);
+  sprintf(headers, "%sX-Amz-Date: %sT%sZ\r\n", headers, awsDate, awsTime);
+  sprintf(headers, "%sAuthorization: AWS4-HMAC-SHA256 Credential=%s/%s/%s/%s/"
+                   "aws4_request, SignedHeaders=%s, Signature=%s\r\n", headers,
+          awsKeyID, awsDate, awsRegion, awsService, signedHeaders, signature);
+  return;
 }
 
-char* AWSClient4::createStringToSign(char* canonical_request) {
-  // return canonical_request;
+void
+AWSClient4::createStringToSign(char* canonical_request)
+{
   SHA256* sha256 = new SHA256();
   char* hashed = (*sha256)(canonical_request, strlen(canonical_request));
   delete sha256;
-  // return canonical_request;
 
-  char string_to_sign[700] = "";
+  string_to_sign[0] = 0;
   sprintf(string_to_sign, "%sAWS4-HMAC-SHA256\n", string_to_sign);
   sprintf(string_to_sign, "%s%sT%sZ\n", string_to_sign, awsDate, awsTime);
-  sprintf(string_to_sign, "%s%s/%s/%s/aws4_request\n", string_to_sign, awsDate, awsRegion, awsService);
+  sprintf(string_to_sign, "%s%s/%s/%s/aws4_request\n", string_to_sign,
+          awsDate, awsRegion, awsService);
 
   sprintf(string_to_sign, "%s%s", string_to_sign, hashed);
 
-  return string_to_sign;
+  return;
 }
 
-char* AWSClient4::createCanonicalRequest() {
-  char canonical_request[800] = "";
+void
+AWSClient4::createCanonicalRequest()
+{
+  canonical_request[0] = 0;
   sprintf(canonical_request, "%s%s\n", canonical_request, method); // VERB
   sprintf(canonical_request, "%s%s\n", canonical_request, awsPath); // URI
-  sprintf(canonical_request, "%s%s\n", canonical_request, queryString); // queryString
+  sprintf(canonical_request, "%s%s\n", canonical_request,
+                                              queryString); // queryString
 
-  char* headers = createCanonicalHeaders();
+  createCanonicalHeaders();
 
-  sprintf(canonical_request, "%s%s", canonical_request, headers); // headers
-  sprintf(canonical_request, "%s%s\n", canonical_request, signedHeaders); // signed_headers
-  sprintf(canonical_request, "%s%s", canonical_request, payloadHash); // payload
+  sprintf(canonical_request, "%s%s", canonical_request, canonical_headers);
+                                                      // headers
+  sprintf(canonical_request, "%s%s\n", canonical_request, signedHeaders);
+                                                      // signed_headers
+  sprintf(canonical_request, "%s%s", canonical_request, payloadHash);
+                                                      // payload
 
-  return canonical_request;
+  return;
 }
 
 
-char* AWSClient4::createSignature(const char* toSign) {
-
+char*
+AWSClient4::createSignature(const char* toSign)
+{
     /* Allocate memory for the signature */
     char* signature = new char[HASH_HEX_LEN4 + 1]();
 
@@ -172,7 +222,9 @@ char* AWSClient4::createSignature(const char* toSign) {
 }
 
 
-char* AWSClient4::createRequest(MinimalString &reqPayload) {
+char*
+AWSClient4::createRequest(MinimalString &reqPayload)
+{
     /* Check that all values have been initialized. */
     if (awsRegion == 0 || awsEndpoint == 0 || awsSecKey == 0 || awsKeyID == 0
             || httpClient == 0 || dateTimeProvider == 0)
@@ -192,39 +244,38 @@ char* AWSClient4::createRequest(MinimalString &reqPayload) {
 
     payload = reqPayload;
 
-    // create the canonical request, we need to copy the results
-    // @TODO: figure out why the reference doesn't work
-    char *canonical_request_return = createCanonicalRequest();
-    char canonical_request[1000];
-    strcpy(canonical_request, canonical_request_return);
-    // return canonical_request;
+    // create the canonical request
+    createCanonicalRequest();
 
-    // create the signing string, we need to copy the results
-    // @TODO: figure out why the reference doesn't work
-    char *return_string_to_sign = createStringToSign(canonical_request);
-    char string_to_sign[500];
-    strcpy(string_to_sign, return_string_to_sign);
+    // create the signing string
+    createStringToSign(canonical_request);
 
     // create the signature
     char *signature = createSignature(string_to_sign);
 
     // create the headers
-    char *headers = createRequestHeaders(signature);
+    createRequestHeaders(signature);
+    delete signature;
 
     // get the host/domain
     // char *host = createHost();
 
     // create the request with all the vars
-    char* request = new char[strlen(method) + strlen(awsDomain) + strlen(awsPath) + strlen(headers) + strlen(reqPayload.getCStr()) + 16]();
-    sprintf(request, "%s %s HTTP/1.1\r\n%s\r\n%s\r\n\r\n", method, awsPath, headers, reqPayload.getCStr());
+    char* request = new char[strlen(method) + strlen(awsDomain) +
+                             strlen(awsPath) + strlen(headers) +
+                             strlen(reqPayload.getCStr()) + 16]();
+    sprintf(request, "%s %s HTTP/1.1\r\n%s\r\n%s\r\n\r\n", method, awsPath,
+            headers, reqPayload.getCStr());
 
     return request;
 }
 
-char* AWSClient4::sendData(const char* data) {
+const char*
+AWSClient4::sendData(const char* data)
+{
     // char* server = createHost();
     int port = httpS ? 443 : 80;
-    char* response = httpClient->send(data, awsDomain, port);
+    const char* response = httpClient->send(data, awsDomain, port);
     // delete[] server;
     return response;
 }

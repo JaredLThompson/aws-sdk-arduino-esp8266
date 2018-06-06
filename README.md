@@ -1,6 +1,6 @@
 # Version 1 of the Experimental AWS SDK for Arduino
 
-An experimental SDK for contacting AWS Services on Arduino-compatible devices. Currently it supports Amazon DynamoDB, Amazon Kinesis and Amazon SNS. More services coming soon.
+An experimental SDK for contacting AWS Services on Arduino-compatible devices. Currently it supports Amazon DynamoDB, Amazon Kinesis, Amazon IOT and Amazon SNS. More services coming soon.
 
 All Amazon DynamoDB operations are supported. The code for creating, serializing, and deserializing Kinesis input and output objects is included, but the devices that the experimental SDK has been tested on do not have readily available HTTPS support. This code has been included so it can be used by those who want to do further experimenting with Kinesis and HTTPS.
 
@@ -8,14 +8,7 @@ The SDK is extensible to non-Arduino-compatible devices by implementing the inte
 
 ## Folder Structure
 
-	* /common contains all the common source code
-	* /sparkcore contains Spark IO Core device-specific implementations
-	* /edison contains Intel Edison device-specfic implementations
-	* /galileo contains Intel Galileo device-specific implementations
-    * /mediatek contains MediaTek LinkIt One device-specific implementations
-
-
-Depending on the device that you are working, Simply copy the those device-specific implementations to the Common directory so you can test out your samples using Arduino IDE.
+	* /src contains all the common source code
 
 Happy experimenting!
 
@@ -145,17 +138,18 @@ For Galileo/Edison, after the wiring is finished, you should be able to connect 
 
 For Spark, after the wiring is finished, you should be able to connect it to your computer via USB, and *Flash* the code. Be sure to refer to the comments in the samples for help.
 
-#### ESP8266
+#### ESP8266 and ESP32
 
-You can use these libraries with the [Arduino ESP8266](https://github.com/esp8266/arduino):.
+You can use these libraries with the [Arduino ESP8266](https://github.com/esp8266/arduino) or ESP32: or ARDUINO_ARCH_SAM or ARDUINO_ARCH_SAMD.
 
 ```
-#include <ESP8266WiFi.h>
+#include <WiFiClient.h>
+#include <HTTPClient.h> //ESP32 case
 #include <AmazonIOTClient.h>
-#include "Esp8266AWSImplementations.h"
+#include "EspAWSImplementations.h"
 
-Esp8266HttpClient httpClient;
-Esp8266DateTimeProvider dateTimeProvider;
+EspHttpClient httpClient;
+EspDateTimeProvider dateTimeProvider;
 
 AmazonIOTClient iotClient;
 ActionError actionError;

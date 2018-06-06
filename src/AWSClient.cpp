@@ -334,7 +334,7 @@ char* AWSClient::createRequest(MinimalString &reqPayload) {
     return request;
 }
 
-char* AWSClient::createCurlRequest(MinimalString &reqPayload) {
+const char* AWSClient::createCurlRequest(MinimalString &reqPayload) {
     /* Check that all values have been initialized. */
     if (awsRegion == 0 || awsEndpoint == 0 || awsSecKey == 0 || awsKeyID == 0
             || httpClient == 0 || dateTimeProvider == 0)
@@ -345,12 +345,12 @@ char* AWSClient::createCurlRequest(MinimalString &reqPayload) {
     return request;
 }
 
-char* AWSClient::sendData(const char* data) {
+const char* AWSClient::sendData(const char* data) {
     char* server = new char[strlen(awsService) + strlen(awsRegion)
             + strlen(awsEndpoint) + 4]();
     sprintf(server, "%s.%s.%s", awsService, awsRegion, awsEndpoint);
     int port = httpS ? 443 : 80;
-    char* response = httpClient->send(data, server, port);
+    const char* response = httpClient->send(data, server, port);
     delete[] server;
     return response;
 }

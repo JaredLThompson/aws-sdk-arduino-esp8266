@@ -1912,13 +1912,13 @@ KinesisErrorCheckingOnlyOutput AmazonKinesisClient::createStream(CreateStreamInp
     target = CREATESTREAM_TARGET;
     httpS = true;
     MinimalString payload = createStreamInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;
@@ -1962,13 +1962,13 @@ KinesisErrorCheckingOnlyOutput AmazonKinesisClient::deleteStream(DeleteStreamInp
     target = DELETESTREAM_TARGET;
     httpS = true;
     MinimalString payload = deleteStreamInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;
@@ -2012,13 +2012,13 @@ DescribeStreamOutput AmazonKinesisClient::describeStream(DescribeStreamInput des
     target = DESCRIBESTREAM_TARGET;
     httpS = true;
     MinimalString payload = describeStreamInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;
@@ -2063,13 +2063,13 @@ GetRecordsOutput AmazonKinesisClient::getRecords(GetRecordsInput getRecordsInput
     target = GETRECORDS_TARGET;
     httpS = true;
     MinimalString payload = getRecordsInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;
@@ -2114,13 +2114,13 @@ GetShardIteratorOutput AmazonKinesisClient::getShardIterator(GetShardIteratorInp
     target = GETSHARDITERATOR_TARGET;
     httpS = true;
     MinimalString payload = getShardIteratorInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;
@@ -2165,13 +2165,13 @@ ListStreamsOutput AmazonKinesisClient::listStreams(ListStreamsInput listStreamsI
     target = LISTSTREAMS_TARGET;
     httpS = true;
     MinimalString payload = listStreamsInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;
@@ -2216,13 +2216,13 @@ KinesisErrorCheckingOnlyOutput AmazonKinesisClient::mergeShards(MergeShardsInput
     target = MERGESHARDS_TARGET;
     httpS = true;
     MinimalString payload = mergeShardsInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;
@@ -2266,13 +2266,13 @@ PutRecordOutput AmazonKinesisClient::putRecord(PutRecordInput putRecordInput, Ac
     target = PUTRECORD_TARGET;
     httpS = true;
     MinimalString payload = putRecordInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;
@@ -2317,13 +2317,13 @@ KinesisErrorCheckingOnlyOutput AmazonKinesisClient::splitShard(SplitShardInput s
     target = SPLITSHARD_TARGET;
     httpS = true;
     MinimalString payload = splitShardInput.jsonSerialize();
-    char* request;
+    const char* request;
     if (httpClient->usesCurl()) {
         request = createCurlRequest(payload);
     } else {
         request = createRequest(payload);
     }
-    char* response = sendData(request);
+    const char* response = sendData(request);
     delete[] request;
     if (response == NULL) {
         actionError = CONNECTION_ACTIONERROR;
