@@ -1,7 +1,7 @@
 {
   "name": "AWS-SDK-ESP by Schm1tz1 modified by Burt-Silverman",
-  "keywords": "AWS, SDK, ESP8266, ESP32, IoT",
-  "description": "SDK for accessing AWS IoT services with ESP* devices.",
+  "keywords": "AWS, SDK, ESP8266, ESP32, IoT, SAM, SAMD",
+  "description": "SDK for accessing AWS IoT services with many devices.",
   "repository":
   {
     "type": "git",

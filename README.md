@@ -140,7 +140,7 @@ For Spark, after the wiring is finished, you should be able to connect it to you
 
 #### ESP8266 and ESP32
 
-You can use these libraries with the [Arduino ESP8266](https://github.com/esp8266/arduino) or ESP32:.
+You can use these libraries with the [Arduino ESP8266](https://github.com/esp8266/arduino) or ESP32: or ARDUINO_ARCH_SAM or ARDUINO_ARCH_SAMD.
 
 ```
 #include <WiFiClient.h>
