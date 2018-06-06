@@ -5,7 +5,7 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/Burt-Silverman/aws-sdk-arduino-esp"
+    "url": "https://github.com/Schm1tz1/aws-sdk-arduino-esp8266"
   },
   "frameworks": "arduino",
   "platforms": "*"
