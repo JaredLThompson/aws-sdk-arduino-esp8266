@@ -21,3 +21,14 @@ const char* AmazonIOTClient::update_shadow(MinimalString shadow, ActionError& ac
     const char* response = sendData(request);
     return response;
 }
+
+const char* AmazonIOTClient::get_shadow(ActionError& actionError) {
+    actionError = NONE_ACTIONERROR;
+
+    this->method = "GET";
+	MinimalString shadow = "";
+    char* request = createRequest(shadow);
+    // return request;
+    const char* response = sendData(request);
+    return response;
+}
