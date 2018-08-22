@@ -1,4 +1,4 @@
-# Version 1 of the Experimental AWS SDK for Arduino
+# Experimental AWS SDK for Arduino
 
 An experimental SDK for contacting AWS Services on Arduino-compatible devices. Currently it supports Amazon DynamoDB, Amazon Kinesis, Amazon IOT and Amazon SNS. More services coming soon.
 
