@@ -17,6 +17,8 @@ EspHttpClient::send(const char* request, const char* serverUrl, int port)
     //port = 443;
 #if !defined ARDUINO_ARCH_SAM && !defined ARDUINO_ARCH_SAMD
     WiFiClientSecure sclient;
+    //BearSSL now requires security to be specified - setting to inSecure for now.
+    sclient.setInsecure();
 #else
     WiFiSSLClient sclient;
 #endif
